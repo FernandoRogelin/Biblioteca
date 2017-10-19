@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/br.com.fernando.biblioteca.iml" filepath="$PROJECT_DIR$/.idea/modules/br.com.fernando.biblioteca.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/br.com.fernando.biblioteca_main.iml" filepath="$PROJECT_DIR$/.idea/modules/br.com.fernando.biblioteca_main.iml" group="br.com.fernando.biblioteca" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/br.com.fernando.biblioteca_test.iml" filepath="$PROJECT_DIR$/.idea/modules/br.com.fernando.biblioteca_test.iml" group="br.com.fernando.biblioteca" />
+    </modules>
+  </component>
+</project>
