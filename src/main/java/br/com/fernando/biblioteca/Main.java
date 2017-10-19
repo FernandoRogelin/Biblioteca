@@ -10,5 +10,6 @@ public class Main {
        usu.setAno(1997);
        livros liv = new livros();
        liv.adicionarLivros(usu);
+       liv.excluirLivro("Miauuuu");
     }
 }

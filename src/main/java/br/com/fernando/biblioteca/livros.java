@@ -26,7 +26,19 @@ public class livros {
         }
     }
 
-    public void excluirLivro(int ID){
-        String sql = "DELETE FROM livros WHERE id = ?";
+    public void excluirLivro(String nome){
+        String sql = "DELETE FROM livros WHERE nome = ?";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, nome);
+            stmt.execute();
+            stmt.close();
+        }catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+    }
+
+    public void verLivrosDisponiveis(){
+
     }
 }
