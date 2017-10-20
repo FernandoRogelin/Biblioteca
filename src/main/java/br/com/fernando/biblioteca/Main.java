@@ -5,11 +5,14 @@ public class Main {
        //ConexaoMySQL.getConexaoMySQL();
        //System.out.println(ConexaoMySQL.status);
 
-       usuario usu = new usuario();
-       usu.setNome("Miauuuu");
-       usu.setAno(1997);
-       livros liv = new livros();
-       liv.adicionarLivros(usu);
-       liv.excluirLivro("Miauuuu");
+       //usuario usu = new usuario();
+       //usu.setNome("Miauuu");
+       //usu.setAno(1997);
+       //livros liv = new livros();
+       //liv.adicionarLivros(usu);
+       //liv.excluirLivro("Miauuuu");
+       //liv.verLivrosDisponiveis();
+
+
     }
 }

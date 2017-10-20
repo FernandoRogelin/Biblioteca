@@ -31,7 +31,7 @@ public class ConexaoMySQL {
             // Configurando a nossa conexão com um banco de dados//
 
             String serverName = "localhost";
-            String mydatabase = "Biblioteca";
+            String mydatabase = "Biblioteca?usessl=false";
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
             String username = "root";
             String password = "admin";

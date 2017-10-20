@@ -2,6 +2,7 @@ package br.com.fernando.biblioteca;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import br.com.fernando.banco.ConexaoMySQL;
 
@@ -39,6 +40,19 @@ public class livros {
     }
 
     public void verLivrosDisponiveis(){
+        String sql = "select * from livros";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet st = stmt.executeQuery();
+            while(st.next()){
+                String nome = st.getString("nome");
+                int ano = st.getInt("ano");
 
+                System.out.println(" Nome: " + nome + " | Ano: " + ano);
+            }
+            stmt.close();
+        } catch (SQLException u){
+            throw new RuntimeException(u);
+        }
     }
 }
