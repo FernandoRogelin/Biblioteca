@@ -40,15 +40,14 @@ public class livros {
     }
 
     public void verLivrosDisponiveis(){
-        String sql = "select * from livros";
+        String sql = "select livros.nome from livros JOIN reservados on livros.id != reservados.ID_livro";
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet st = stmt.executeQuery();
             while(st.next()){
                 String nome = st.getString("nome");
-                int ano = st.getInt("ano");
 
-                System.out.println(" Nome: " + nome + " | Ano: " + ano);
+                System.out.println(" Nome: " + nome + " ");
             }
             stmt.close();
         } catch (SQLException u){

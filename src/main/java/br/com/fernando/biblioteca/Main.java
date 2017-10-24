@@ -56,6 +56,15 @@ public class Main {
             }
         } else if (alu.verContaAluno(login, senha)){
             System.out.println("Entrou na conta como aluno, o que deseja fazer: \n");
+            System.out.println("1 - Livros disponíveis\n2 - Reservado");
+            System.out.println("3 - Data de entrega\n4 - Renovação");
+            int option = scn.nextInt();
+            switch (option){
+                case 1:
+                    liv.verLivrosDisponiveis();
+                case 2:
+
+            }
         } else{
             System.out.println("Não tem nenhuma conta, registre-se");
             String nomeNovoAluno, emailNovoAluno, loginNovoAluno;
