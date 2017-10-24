@@ -32,4 +32,19 @@ public class aluno {
         }
         return false;
     }
+
+    public void cadastroDeNovoAluno(String login, int senha, String nome, String email){
+        String sql = "INSERT INTO aluno (login, senha, nome, email) values(?, ?, ?, ?)";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, login);
+            stmt.setString(2, String.valueOf(senha));
+            stmt.setString(3, nome);
+            stmt.setString(4, email);
+            stmt.execute();
+            stmt.close();
+        }catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+    }
 }

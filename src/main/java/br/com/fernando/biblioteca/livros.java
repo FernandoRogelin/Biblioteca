@@ -14,12 +14,12 @@ public class livros {
         this.connection = ConexaoMySQL.getConexaoMySQL();
     }
 
-    public void adicionarLivros(usuario usu){
+    public void adicionarLivros(String nomeLivroNovo, int anoLivroNovo){
         String sql = "INSERT INTO livros(nome, ano) VALUES(?, ?)";
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, usu.getNome());
-            stmt.setString(2, String.valueOf(usu.getAno()));
+            stmt.setString(1, nomeLivroNovo);
+            stmt.setString(2, String.valueOf(anoLivroNovo));
             stmt.execute();
             stmt.close();
         }catch (SQLException u){
