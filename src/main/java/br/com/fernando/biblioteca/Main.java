@@ -63,7 +63,10 @@ public class Main {
                 case 1:
                     liv.verLivrosDisponiveis();
                 case 2:
-
+                    String reservado;
+                    System.out.println("Nome do livro que deseja reservar: ");
+                    reservado = scn.next();
+                    liv.reservaLivros(reservado);
             }
         } else{
             System.out.println("Não tem nenhuma conta, registre-se");

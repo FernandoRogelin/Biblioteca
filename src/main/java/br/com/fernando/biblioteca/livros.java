@@ -54,4 +54,31 @@ public class livros {
             throw new RuntimeException(u);
         }
     }
+
+    public int reservaLivros(String nomeDoLivro){
+        String idDoLivroParaReserva = "select livros.id from livros where nome = ?";
+        String idDoLivroReservado = "select reservados.ID_livro from reservados";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(idDoLivroParaReserva);
+            PreparedStatement stm = connection.prepareStatement(idDoLivroReservado);
+            stmt.setString(1, nomeDoLivro);
+            stmt.execute();
+            ResultSet st = stmt.executeQuery();
+            ResultSet idLivroReservado = stm.executeQuery();
+            while(st.next()){
+                int livroID = st.getInt("id");
+                while(idLivroReservado.next()){
+                    int idReservado = idLivroReservado.getInt("reservados.ID_livro");
+                    if(livroID == idReservado){
+
+                    } else{
+
+                    }
+                }
+            }
+        }catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+        return 0;
+    }
 }
