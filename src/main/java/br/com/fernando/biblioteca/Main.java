@@ -66,7 +66,13 @@ public class Main {
                     String reservado;
                     System.out.println("Nome do livro que deseja reservar: ");
                     reservado = scn.next();
-                    liv.reservaLivros(reservado);
+                    int livrosNaoReservados = liv.veSeOLivroJaEstaReservado(reservado);
+                    if(livrosNaoReservados == 0){
+                        System.out.println("Este livro ja foi reservado");
+                    } else{
+                        int loginALuno = liv.pegarIDdoAluno(login);
+                        liv.reservaDoLivro(livrosNaoReservados, loginALuno);
+                    }
             }
         } else{
             System.out.println("Não tem nenhuma conta, registre-se");
