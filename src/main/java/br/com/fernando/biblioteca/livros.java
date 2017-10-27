@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import br.com.fernando.banco.ConexaoMySQL;
+
+import javax.print.DocFlavor;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +45,13 @@ public class livros {
     }
 
     public void verLivrosDisponiveis(){
-        String sql = "select livros.nome from livros JOIN reservados on livros.id != reservados.ID_livro";
+        String sql = "select livros.nome from livros JOIN reservados on livros.id != reservados.ID_livro group by nome";
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet st = stmt.executeQuery();
             while(st.next()){
                 String nome = st.getString("nome");
-
-                System.out.println(" Nome: " + nome + " ");
+                System.out.println(" Nome: " + nome);
             }
             stmt.close();
         } catch (SQLException u){
@@ -59,29 +60,18 @@ public class livros {
     }
 
     public int veSeOLivroJaEstaReservado(String nomeDoLivro){
-        String idDoLivroParaReserva = "select livros.id from livros where nome = ?";
-        String idDoLivroReservado = "select id from livros where livros.id NOT IN(select ID_livro from reservados)"; //lista de livros disponiveis
-        int disponibilidade = 0;
+        String retornaIdDoLivroNaoReservado = "select id from livros where nome = ? and livros.id NOT IN(select ID_livro from reservados)";
         try{
-            PreparedStatement stmt = connection.prepareStatement(idDoLivroParaReserva);
-            PreparedStatement stm = connection.prepareStatement(idDoLivroReservado);
+            PreparedStatement stmt = connection.prepareStatement(retornaIdDoLivroNaoReservado);
             stmt.setString(1, nomeDoLivro);
-            stmt.execute();
-            ResultSet st = stmt.executeQuery();
-            ResultSet idLivroReservado = stm.executeQuery();
-            while (st.next()){
-                int livroDigitado = st.getInt("id");
-                while (idLivroReservado.next()){
-                    int livrosReservados = idLivroReservado.getInt("id");
-                    if(livroDigitado == livrosReservados){
-                        return disponibilidade = livroDigitado;
-                    }
-                }
+            ResultSet pegaInformacoesDoID = stmt.executeQuery();
+            while (pegaInformacoesDoID.next()){
+                return pegaInformacoesDoID.getInt("id");
             }
-            return disponibilidade;
-        }catch (SQLException u){
+        } catch (SQLException u){
             throw new RuntimeException(u);
         }
+        return 0;
     }
 
     public int pegarIDdoAluno(String login){
@@ -113,6 +103,36 @@ public class livros {
             stmt.execute();
             stmt.close();
         }catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+    }
+
+    public void dataDeEntregaDoLivro(int idAluno){
+        String dataDeEntregaDoLivro = "select id_aluno, diaDeEntrega from reservados where ID_aluno = ?";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(dataDeEntregaDoLivro);
+            stmt.setString(1, String.valueOf(idAluno));
+            ResultSet dataDeEntrega = stmt.executeQuery();
+            System.out.println("Dia que você deve entregar seus livros: ");
+            while (dataDeEntrega.next()){
+                String diaDaEntrega = dataDeEntrega.getString("diaDeEntrega");
+                System.out.println(diaDaEntrega);
+            }
+        }catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+    }
+
+    public void livrosReservados(){
+        String livrosReservados = "select livros.nome from livros JOIN reservados on livros.id = reservados.ID_livro";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(livrosReservados);
+            ResultSet livrosJaReservados = stmt.executeQuery();
+            while (livrosJaReservados.next()){
+                String nomeDoLivro = livrosJaReservados.getString("nome");
+                System.out.println(nomeDoLivro);
+            }
+        } catch (SQLException u){
             throw new RuntimeException(u);
         }
     }

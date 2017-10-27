@@ -45,4 +45,21 @@ public class administrador {
         }
         return false;
     }
+
+    public void dataDosLivrosReservados(){
+        String dataDeEntregaDoLivro = "select id_aluno, diaDeEntrega from reservados";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(dataDeEntregaDoLivro);
+            ResultSet dataDeEntrega = stmt.executeQuery();
+            System.out.println("Dias da entrega dos livros: ");
+            while (dataDeEntrega.next()){
+                String diaDaEntrega = dataDeEntrega.getString("diaDeEntrega");
+                int idDoLivroReservado = dataDeEntrega.getInt("id_aluno");
+                System.out.println("ID do aluno:" + idDoLivroReservado);
+                System.out.println("Data de entrega:" + diaDaEntrega  + "\n");
+            }
+        }catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+    }
 }

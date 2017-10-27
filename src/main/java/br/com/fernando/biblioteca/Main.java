@@ -22,8 +22,8 @@ public class Main {
             System.out.println("Entrou na conta como administrador \n");
             System.out.println("1 - Adicionar novo administrador \n2 - Ver livros disponíveis");
             System.out.println("3 - Remover livros \n4 - Adicionar um livro novo");
-            System.out.println("5 - Ver datas de livros em atraso \n6 - Livros reservados");
-            System.out.println("7 - Sair");
+            System.out.println("5 - Livros reservados\n6 - Datas dos Livros Reservados");
+            System.out.println("7 - Ver datas de livros em atraso\n8 - Sair");
             System.out.println("Escolha a opção: ");
             int opcao = scn.nextInt();
             switch (opcao){
@@ -53,6 +53,13 @@ public class Main {
                     System.out.println("Ano do livro: ");
                     anoDoLivroNovo = scn.nextInt();
                     liv.adicionarLivros(nomeLivroNovo, anoDoLivroNovo);
+                    break;
+                case 5:
+                    liv.livrosReservados();
+                    break;
+                case 6:
+                    adm.dataDosLivrosReservados();
+                    break;
             }
         } else if (alu.verContaAluno(login, senha)){
             System.out.println("Entrou na conta como aluno, o que deseja fazer: \n");
@@ -62,6 +69,7 @@ public class Main {
             switch (option){
                 case 1:
                     liv.verLivrosDisponiveis();
+                    break;
                 case 2:
                     String reservado;
                     System.out.println("Nome do livro que deseja reservar: ");
@@ -73,6 +81,14 @@ public class Main {
                         int loginALuno = liv.pegarIDdoAluno(login);
                         liv.reservaDoLivro(livrosNaoReservados, loginALuno);
                     }
+                    break;
+                case 3:
+                    int idAluno = liv.pegarIDdoAluno(login);
+                    liv.dataDeEntregaDoLivro(idAluno);
+                    break;
+                case 4:
+
+                    break;
             }
         } else{
             System.out.println("Não tem nenhuma conta, registre-se");

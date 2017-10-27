@@ -37,60 +37,13 @@ public class ConexaoMySQL {
             String password = "admin";
 
             connection = DriverManager.getConnection(url, username, password);
-
-            if (connection != null) {
-
-                status = ("STATUS--->Conectado com sucesso!");
-
-            } else {
-
-                status = ("STATUS--->Não foi possivel realizar conexão");
-
-            }
             return connection;
-
         } catch (ClassNotFoundException e) {  //Driver não encontrado
-
             System.out.println("O driver expecificado nao foi encontrado.");
-
             return null;
-
         } catch (SQLException e) {
-
             System.out.println("Nao foi possivel conectar ao Banco de Dados.");
-
             return null;
-
         }
-
-
-
-
-    }
-
-    public static String statusConection() {
-
-        return status;
-
-    }
-
-    public static boolean FecharConexao() {
-
-        try {
-
-            ConexaoMySQL.getConexaoMySQL().close();
-
-            return true;
-
-        } catch (SQLException e) {
-
-            return false;
-        }
-    }
-
-    public static java.sql.Connection ReiniciarConexao() {
-
-        FecharConexao();
-        return ConexaoMySQL.getConexaoMySQL();
     }
 }
