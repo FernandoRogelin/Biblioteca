@@ -60,6 +60,8 @@ public class Main {
                 case 6:
                     adm.dataDosLivrosReservados();
                     break;
+                case 7:
+                    break;
             }
         } else if (alu.verContaAluno(login, senha)){
             System.out.println("Entrou na conta como aluno, o que deseja fazer: \n");
@@ -87,7 +89,11 @@ public class Main {
                     liv.dataDeEntregaDoLivro(idAluno);
                     break;
                 case 4:
-
+                    String livroRenovacao;
+                    int idALuno = liv.pegarIDdoAluno(login);
+                    System.out.println("Nome do livro que deseja renovar: ");
+                    livroRenovacao = scn.next();
+                    liv.renovacaoDeLivro(idALuno, livroRenovacao);
                     break;
             }
         } else{

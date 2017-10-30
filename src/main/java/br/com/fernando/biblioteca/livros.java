@@ -5,11 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import br.com.fernando.banco.ConexaoMySQL;
-
-import javax.print.DocFlavor;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class livros {
 
@@ -133,6 +129,21 @@ public class livros {
                 System.out.println(nomeDoLivro);
             }
         } catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+    }
+
+    public void renovacaoDeLivro(int idAluno, String nomeDoLivro){
+        String dataDeEntregaPeloNome = "select diaDeEntrega from reservados left join livros on reservados.ID_livro = livros.id " +
+                "where reservados.ID_aluno = ? and livros.nome = ?";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(dataDeEntregaPeloNome);
+            stmt.setString(1, String.valueOf(idAluno));
+            stmt.setString(2, nomeDoLivro);
+            ResultSet dataParaRenovar = stmt.executeQuery();
+            dataParaRenovar.next();
+            String dataDeEntrega = dataParaRenovar.getString("diaDeEntrega");
+        }catch (SQLException u){
             throw new RuntimeException(u);
         }
     }
