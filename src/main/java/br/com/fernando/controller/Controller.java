@@ -1,5 +1,6 @@
 package br.com.fernando.controller;
 
+import br.com.fernando.view.Main;
 import br.com.fernando.biblioteca.*;
 
 public class Controller {
@@ -15,13 +16,13 @@ public class Controller {
     public void recebeOpcaoADM(int opcao){
         switch (opcao){
             case 1:
-                main.adicionaAdministrador();
+                main.adicionaAdministrador(adm);
                 break;
             case 2:
                 liv.verLivrosDisponiveis();
                 break;
             case 3:
-                main.removerLivros(liv);
+                main.removerLivros(adm, liv);
                 break;
             case 4:
                 main.adicionaLivroNovo(liv);
@@ -37,17 +38,17 @@ public class Controller {
         }
     }
 
-    public void recebeOpcaoAluno(int opcao, Usuario usu, Livros liv){
+    public void recebeOpcaoAluno(int opcao, Usuario usu){
         switch (opcao){
             case 1:
                 liv.verLivrosDisponiveis();
                 break;
             case 2:
-                main.reservaLivro(usu, liv);
+                main.reservaLivro(usu, alu, liv);
                 break;
             case 3:
-                int idAluno = liv.pegarIDdoAluno(usu.getLogin());
-                liv.dataDeEntregaDoLivro(idAluno);
+                int idAluno = alu.pegarIDdoAluno(usu.getLogin());
+                alu.dataDeEntregaDoLivro(idAluno);
                 break;
             case 4:
                 break;

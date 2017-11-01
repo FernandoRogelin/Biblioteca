@@ -47,4 +47,37 @@ public class Aluno {
             throw new RuntimeException(u);
         }
     }
+
+    public int pegarIDdoAluno(String login){
+        String pegaIDdoAluno = "select aluno.alunoID from aluno where login = ?";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(pegaIDdoAluno);
+            stmt.setString(1, login);
+            ResultSet st = stmt.executeQuery();
+            while (st.next()){
+                int idAluno = st.getInt("alunoID");
+                return idAluno;
+            }
+        }catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+        return 0;
+    }
+
+    public void dataDeEntregaDoLivro(int idAluno){
+        String dataDeEntregaDoLivro = "select livros.nome, diaDeEntrega from reservados JOIN livros ON livros.id = reservados.ID_livro where reservados.ID_aluno = ?";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(dataDeEntregaDoLivro);
+            stmt.setString(1, String.valueOf(idAluno));
+            ResultSet dataDeEntrega = stmt.executeQuery();
+            System.out.println("Nome e Dia do livro que você deve entregar: ");
+            while (dataDeEntrega.next()){
+                String nomeDoLivro = dataDeEntrega.getString("nome");
+                String diaDaEntrega = dataDeEntrega.getString("diaDeEntrega");
+                System.out.println(nomeDoLivro + " : " + diaDaEntrega);
+            }
+        }catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+    }
 }

@@ -1,5 +1,9 @@
-package br.com.fernando.biblioteca;
+package br.com.fernando.view;
 
+import br.com.fernando.biblioteca.AdministradorDAO;
+import br.com.fernando.biblioteca.Aluno;
+import br.com.fernando.biblioteca.Livros;
+import br.com.fernando.biblioteca.Usuario;
 import br.com.fernando.controller.Controller;
 import br.com.fernando.controller.ControllerUsuario;
 
@@ -28,14 +32,21 @@ public class Main {
     public void menuAdministrador(Usuario usu){
         Scanner scn = new Scanner(System.in);
         Controller cont = new Controller();
-        System.out.println("Entrou na conta como Administrador \n");
-        System.out.println("1 - Adicionar novo Administrador \n2 - Ver Livros disponíveis");
-        System.out.println("3 - Remover Livros \n4 - Adicionar um livro novo");
-        System.out.println("5 - Livros reservados\n6 - Datas dos Livros Reservados");
-        System.out.println("7 - Ver datas de Livros em atraso\n8 - Sair");
-        System.out.println("Escolha a opção: ");
-        int opcao = scn.nextInt();
-        cont.recebeOpcaoADM(opcao);
+        int i = 0;
+        while(i == 0){
+            System.out.println("Entrada na conta como Administrador \n");
+            System.out.println("1 - Adicionar novo Administrador \n2 - Ver Livros disponíveis");
+            System.out.println("3 - Remover Livros \n4 - Adicionar um livro novo");
+            System.out.println("5 - Livros reservados\n6 - Datas dos Livros Reservados");
+            System.out.println("7 - Ver datas de Livros em atraso\n8 - Sair");
+            System.out.println("Escolha a opção: ");
+            int opcao = scn.nextInt();
+            if(opcao == 8){
+                i = 1;
+            } else{
+                cont.recebeOpcaoADM(opcao);
+            }
+        }
     }
 
     public void adicionaLivroNovo(Livros liv){
@@ -46,10 +57,11 @@ public class Main {
         nomeLivroNovo = scn.next();
         System.out.println("Ano do livro: ");
         anoDoLivroNovo = scn.nextInt();
+        System.out.println("Livro adicionado com sucesso");
         liv.adicionarLivros(nomeLivroNovo, anoDoLivroNovo);
     }
 
-    public void adicionaAdministrador(){
+    public void adicionaAdministrador(AdministradorDAO adm){
         ControllerUsuario cont = new ControllerUsuario();
         Scanner scn = new Scanner(System.in);
         String loginADM;
@@ -58,29 +70,49 @@ public class Main {
         loginADM = scn.next();
         System.out.println("Senha do novo Administrador: ");
         senhaADM = scn.nextInt();
-        cont.chamaUsuario(loginADM, senhaADM);
+        if(adm.verificaLoginADM(loginADM)){
+            System.out.println("Login de administrador já existe");
+        } else {
+            System.out.println("Adicionado novo administrador");
+            cont.chamaUsuario(loginADM, senhaADM);
+        }
+
     }
 
-    public void removerLivros(Livros liv){
+    public void removerLivros(AdministradorDAO adm, Livros liv){
         Scanner scn = new Scanner(System.in);
         String nomeLivroExcluido;
         System.out.println("Qual o nome do livro que deseja excluir??");
         nomeLivroExcluido = scn.next();
-        liv.excluirLivro(nomeLivroExcluido);
+        int idLivro = liv.idDoLivro(nomeLivroExcluido);
+        if(adm.verificaLivroParaExcluir(idLivro)){
+            System.out.println("Livro reservado, não pode ser exluido");
+        } else{
+            System.out.println("Livro excluido com sucesso");
+            adm.excluirLivro(nomeLivroExcluido);
+        }
+
     }
 
     public void menuAluno(Usuario usu){
         Scanner scn = new Scanner(System.in);
         Controller cont = new Controller();
-        Livros liv = new Livros();
-        System.out.println("Entrou na conta como Aluno, o que deseja fazer: \n");
-        System.out.println("1 - Livros disponíveis\n2 - Reservado");
-        System.out.println("3 - Data de entrega\n4 - Renovação");
-        int option = scn.nextInt();
-        cont.recebeOpcaoAluno(option, usu, liv);
+        int i = 0;
+        while(i == 0){
+            System.out.println("Entrada na conta como Aluno, o que deseja fazer: \n");
+            System.out.println("1 - Livros disponíveis\n2 - Reservado");
+            System.out.println("3 - Data de entrega\n4 - Renovação");
+            System.out.println("5 - Sair");
+            int option = scn.nextInt();
+            if(option == 5){
+                i = 1;
+            } else{
+                cont.recebeOpcaoAluno(option, usu);
+            }
+        }
     }
 
-    public void reservaLivro(Usuario usu, Livros liv){
+    public void reservaLivro(Usuario usu, Aluno alu, Livros liv){
         Scanner scn = new Scanner(System.in);
         String reservado;
         System.out.println("Nome do livro que deseja reservar: ");
@@ -89,7 +121,7 @@ public class Main {
         if(livrosNaoReservados == 0){
             System.out.println("Este livro ja foi reservado");
         } else{
-            int loginALuno = liv.pegarIDdoAluno(usu.getLogin());
+            int loginALuno = alu.pegarIDdoAluno(usu.getLogin());
             liv.reservaDoLivro(livrosNaoReservados, loginALuno);
         }
     }

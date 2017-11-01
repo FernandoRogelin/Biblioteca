@@ -1,5 +1,6 @@
 package br.com.fernando.controller;
 
+import br.com.fernando.view.Main;
 import br.com.fernando.biblioteca.*;
 
 public class ControllerUsuario {

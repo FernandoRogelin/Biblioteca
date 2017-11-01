@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import br.com.fernando.banco.ConexaoMySQL;
+import com.sun.org.apache.regexp.internal.RE;
+
 import java.time.LocalDate;
 
 public class Livros {
@@ -21,18 +23,6 @@ public class Livros {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, nomeLivroNovo);
             stmt.setString(2, String.valueOf(anoLivroNovo));
-            stmt.execute();
-            stmt.close();
-        }catch (SQLException u){
-            throw new RuntimeException(u);
-        }
-    }
-
-    public void excluirLivro(String nome){
-        String sql = "DELETE FROM livros WHERE nome = ?";
-        try{
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, nome);
             stmt.execute();
             stmt.close();
         }catch (SQLException u){
@@ -70,22 +60,6 @@ public class Livros {
         return 0;
     }
 
-    public int pegarIDdoAluno(String login){
-        String pegaIDdoAluno = "select aluno.alunoID from aluno where login = ?";
-        try{
-            PreparedStatement stmt = connection.prepareStatement(pegaIDdoAluno);
-            stmt.setString(1, login);
-            ResultSet st = stmt.executeQuery();
-            while (st.next()){
-                int idAluno = st.getInt("alunoID");
-                return idAluno;
-            }
-        }catch (SQLException u){
-            throw new RuntimeException(u);
-        }
-        return 0;
-    }
-
     public void reservaDoLivro(int livroNaoReservado, int login){
         LocalDate hoje = LocalDate.now();
         LocalDate umaSemana = hoje.plusDays(7);
@@ -97,22 +71,6 @@ public class Livros {
             stmt.setString(3, String.valueOf(umaSemana));
             stmt.execute();
             stmt.close();
-        }catch (SQLException u){
-            throw new RuntimeException(u);
-        }
-    }
-
-    public void dataDeEntregaDoLivro(int idAluno){
-        String dataDeEntregaDoLivro = "select id_aluno, diaDeEntrega from reservados where ID_aluno = ?";
-        try{
-            PreparedStatement stmt = connection.prepareStatement(dataDeEntregaDoLivro);
-            stmt.setString(1, String.valueOf(idAluno));
-            ResultSet dataDeEntrega = stmt.executeQuery();
-            System.out.println("Dia que você deve entregar seus Livros: ");
-            while (dataDeEntrega.next()){
-                String diaDaEntrega = dataDeEntrega.getString("diaDeEntrega");
-                System.out.println(diaDaEntrega);
-            }
         }catch (SQLException u){
             throw new RuntimeException(u);
         }
@@ -145,5 +103,21 @@ public class Livros {
         }catch (SQLException u){
             throw new RuntimeException(u);
         }
+    }
+
+    public int idDoLivro(String nomeLivro){
+        String idLivroChamado = "select livros.id from livros where nome = ?";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(idLivroChamado);
+            stmt.setString(1, nomeLivro);
+            ResultSet idLivro = stmt.executeQuery();
+            while (idLivro.next()){
+                int idLivroParaExcluir = idLivro.getInt("id");
+                return idLivroParaExcluir;
+            }
+        } catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+        return 0;
     }
 }

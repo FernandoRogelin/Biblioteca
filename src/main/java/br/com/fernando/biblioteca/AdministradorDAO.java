@@ -47,19 +47,64 @@ public class AdministradorDAO {
     }
 
     public void dataDosLivrosReservados(){
-        String dataDeEntregaDoLivro = "select id_aluno, diaDeEntrega from reservados";
+        String dataDeEntregaDoLivro = "select livros.nome, diaDeEntrega from reservados JOIN livros ON livros.id = reservados.ID_livro";
         try{
             PreparedStatement stmt = connection.prepareStatement(dataDeEntregaDoLivro);
             ResultSet dataDeEntrega = stmt.executeQuery();
             System.out.println("Dias da entrega dos Livros: ");
             while (dataDeEntrega.next()){
                 String diaDaEntrega = dataDeEntrega.getString("diaDeEntrega");
-                int idDoLivroReservado = dataDeEntrega.getInt("id_aluno");
-                System.out.println("ID do Aluno:" + idDoLivroReservado);
-                System.out.println("Data de entrega:" + diaDaEntrega  + "\n");
+                String nomeDoLivro = dataDeEntrega.getString("nome");
+                System.out.println(nomeDoLivro + " : " + diaDaEntrega);
             }
         }catch (SQLException u){
             throw new RuntimeException(u);
         }
+    }
+
+    public void excluirLivro(String nome){
+        String sql = "DELETE FROM livros WHERE nome = ?";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, nome);
+            stmt.execute();
+            stmt.close();
+        }catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+    }
+
+    public boolean verificaLivroParaExcluir(int idLivro){
+        String IDLivrosReservados = "select reservados.ID_livro from reservados";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(IDLivrosReservados);
+            ResultSet idLivrosReservados = stmt.executeQuery();
+            while (idLivrosReservados.next()){
+                int idReservados = idLivrosReservados.getInt("ID_livro");
+                if(idLivro == idReservados){
+                    return true;
+                }
+            }
+        } catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+        return false;
+    }
+
+    public boolean verificaLoginADM(String loginADM){
+        String loginDoADM = "select administrador.login from administrador";
+        try{
+            PreparedStatement stmt = connection.prepareStatement(loginDoADM);
+            ResultSet login = stmt.executeQuery();
+            while (login.next()){
+                String log = login.getString("login");
+                if(loginADM.equals(log)){
+                    return true;
+                }
+            }
+        }catch (SQLException u){
+            throw new RuntimeException(u);
+        }
+        return false;
     }
 }
