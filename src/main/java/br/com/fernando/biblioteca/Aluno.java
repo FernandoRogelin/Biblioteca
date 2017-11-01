@@ -7,15 +7,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class aluno {
+public class Aluno {
 
     private Connection connection;
 
-    public aluno() {
+    public Aluno() {
         this.connection = ConexaoMySQL.getConexaoMySQL();
     }
 
-    public boolean verContaAluno(String login, int senha){
+    public boolean verContaAluno(Usuario usu){
         String sql = "Select * from aluno";
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -23,7 +23,7 @@ public class aluno {
             while(st.next()){
                 String logi = st.getString("login");
                 int sen = st.getInt("senha");
-                if(login.equals(logi) && senha == sen){
+                if(usu.getLogin().equals(logi) && usu.getSenha() == sen){
                     return true;
                 }
             }
@@ -33,14 +33,14 @@ public class aluno {
         return false;
     }
 
-    public void cadastroDeNovoAluno(String login, int senha, String nome, String email){
+    public void cadastroDeNovoAluno(Usuario usu){
         String sql = "INSERT INTO aluno (login, senha, nome, email) values(?, ?, ?, ?)";
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, login);
-            stmt.setString(2, String.valueOf(senha));
-            stmt.setString(3, nome);
-            stmt.setString(4, email);
+            stmt.setString(1, usu.getLogin());
+            stmt.setString(2, String.valueOf(usu.getSenha()));
+            stmt.setString(3, usu.getNome());
+            stmt.setString(4, usu.getEmail());
             stmt.execute();
             stmt.close();
         }catch (SQLException u){

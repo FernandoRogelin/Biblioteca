@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import br.com.fernando.banco.ConexaoMySQL;
 import java.time.LocalDate;
 
-public class livros {
+public class Livros {
 
     private Connection connection;
 
-    public livros() {
+    public Livros() {
         this.connection = ConexaoMySQL.getConexaoMySQL();
     }
 
@@ -75,7 +75,6 @@ public class livros {
         try{
             PreparedStatement stmt = connection.prepareStatement(pegaIDdoAluno);
             stmt.setString(1, login);
-            stmt.execute();
             ResultSet st = stmt.executeQuery();
             while (st.next()){
                 int idAluno = st.getInt("alunoID");
@@ -109,7 +108,7 @@ public class livros {
             PreparedStatement stmt = connection.prepareStatement(dataDeEntregaDoLivro);
             stmt.setString(1, String.valueOf(idAluno));
             ResultSet dataDeEntrega = stmt.executeQuery();
-            System.out.println("Dia que você deve entregar seus livros: ");
+            System.out.println("Dia que você deve entregar seus Livros: ");
             while (dataDeEntrega.next()){
                 String diaDaEntrega = dataDeEntrega.getString("diaDeEntrega");
                 System.out.println(diaDaEntrega);
