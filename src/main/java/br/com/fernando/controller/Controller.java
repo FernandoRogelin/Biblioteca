@@ -1,13 +1,13 @@
 package br.com.fernando.controller;
 
-import br.com.fernando.view.Main;
 import br.com.fernando.biblioteca.*;
+import br.com.fernando.view.View;
 
 public class Controller {
     AdministradorDAO adm = new AdministradorDAO();
-    Aluno alu = new Aluno();
-    Main main = new Main();
-    Livros liv = new Livros();
+    AlunoDAO alu = new AlunoDAO();
+    View view = new View();
+    LivrosDAO liv = new LivrosDAO();
 
     public Controller(){
 
@@ -16,16 +16,16 @@ public class Controller {
     public void recebeOpcaoADM(int opcao){
         switch (opcao){
             case 1:
-                main.adicionaAdministrador(adm);
+                view.adicionaAdministrador(adm);
                 break;
             case 2:
                 liv.verLivrosDisponiveis();
                 break;
             case 3:
-                main.removerLivros(adm, liv);
+                view.removerLivros(adm, liv);
                 break;
             case 4:
-                main.adicionaLivroNovo(liv);
+                view.adicionaLivroNovo(liv);
                 break;
             case 5:
                 liv.livrosReservados();
@@ -44,13 +44,14 @@ public class Controller {
                 liv.verLivrosDisponiveis();
                 break;
             case 2:
-                main.reservaLivro(usu, alu, liv);
+                view.reservaLivro(usu, alu, liv);
                 break;
             case 3:
                 int idAluno = alu.pegarIDdoAluno(usu.getLogin());
                 alu.dataDeEntregaDoLivro(idAluno);
                 break;
             case 4:
+                view.renovacao(alu, liv, usu);
                 break;
         }
     }

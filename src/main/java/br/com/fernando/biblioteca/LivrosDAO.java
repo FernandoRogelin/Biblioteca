@@ -1,19 +1,16 @@
 package br.com.fernando.biblioteca;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+
 import br.com.fernando.banco.ConexaoMySQL;
-import com.sun.org.apache.regexp.internal.RE;
 
 import java.time.LocalDate;
 
-public class Livros {
+public class LivrosDAO {
 
     private Connection connection;
 
-    public Livros() {
+    public LivrosDAO() {
         this.connection = ConexaoMySQL.getConexaoMySQL();
     }
 
@@ -31,7 +28,7 @@ public class Livros {
     }
 
     public void verLivrosDisponiveis(){
-        String sql = "select livros.nome from livros JOIN reservados on livros.id != reservados.ID_livro group by nome";
+        String sql = "select livros.nome from livros where livros.id NOT IN(select ID_livro from reservados)";
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet st = stmt.executeQuery();
@@ -90,16 +87,17 @@ public class Livros {
         }
     }
 
-    public void renovacaoDeLivro(int idAluno, String nomeDoLivro){
-        String dataDeEntregaPeloNome = "select diaDeEntrega from reservados left join livros on reservados.ID_livro = livros.id " +
-                "where reservados.ID_aluno = ? and livros.nome = ?";
+    public void renovacaoDeLivro(int idAluno, int idLivro){
+        String dataDeEntregaPeloNome = "update reservados set diaDeEntrega = ? where ID_aluno = ? and ID_livro = ?";
+        LocalDate hoje = LocalDate.now();
+        LocalDate umaSemana = hoje.plusDays(7);
         try{
             PreparedStatement stmt = connection.prepareStatement(dataDeEntregaPeloNome);
-            stmt.setString(1, String.valueOf(idAluno));
-            stmt.setString(2, nomeDoLivro);
-            ResultSet dataParaRenovar = stmt.executeQuery();
-            dataParaRenovar.next();
-            String dataDeEntrega = dataParaRenovar.getString("diaDeEntrega");
+            stmt.setString(1, String.valueOf(umaSemana));
+            stmt.setString(2, String.valueOf(idAluno));
+            stmt.setString(3, String.valueOf(idLivro));
+            stmt.execute();
+            stmt.close();
         }catch (SQLException u){
             throw new RuntimeException(u);
         }
@@ -112,8 +110,8 @@ public class Livros {
             stmt.setString(1, nomeLivro);
             ResultSet idLivro = stmt.executeQuery();
             while (idLivro.next()){
-                int idLivroParaExcluir = idLivro.getInt("id");
-                return idLivroParaExcluir;
+                int idLivros = idLivro.getInt("id");
+                return idLivros;
             }
         } catch (SQLException u){
             throw new RuntimeException(u);

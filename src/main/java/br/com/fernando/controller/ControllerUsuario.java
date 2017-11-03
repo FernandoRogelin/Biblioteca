@@ -1,13 +1,13 @@
 package br.com.fernando.controller;
 
-import br.com.fernando.view.Main;
 import br.com.fernando.biblioteca.*;
+import br.com.fernando.view.View;
 
 public class ControllerUsuario {
 
     AdministradorDAO adm = new AdministradorDAO();
-    Aluno alu = new Aluno();
-    Main main = new Main();
+    AlunoDAO alu = new AlunoDAO();
+    View view = new View();
 
     public ControllerUsuario() {
     }
@@ -25,11 +25,11 @@ public class ControllerUsuario {
         usu.setLogin(login);
         usu.setSenha(senha);
         if(adm.verContaAdministrador(usu)){
-            main.menuAdministrador(usu);
+            view.menuAdministrador(usu);
         } else if(alu.verContaAluno(usu)){
-            main.menuAluno(usu);
+            view.menuAluno(usu);
         } else{
-            main.cadastroNovoAluno();
+            view.cadastroNovoAluno();
         }
     }
 
@@ -39,7 +39,7 @@ public class ControllerUsuario {
         usu.setSenha(senha);
         usu.setNome(nome);
         usu.setEmail(email);
-        Aluno alu = new Aluno();
+        AlunoDAO alu = new AlunoDAO();
         alu.cadastroDeNovoAluno(usu);
     }
 }

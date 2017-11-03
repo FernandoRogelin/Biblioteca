@@ -7,11 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Aluno {
+public class AlunoDAO {
 
     private Connection connection;
 
-    public Aluno() {
+    public AlunoDAO() {
         this.connection = ConexaoMySQL.getConexaoMySQL();
     }
 

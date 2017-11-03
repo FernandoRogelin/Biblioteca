@@ -25,13 +25,13 @@ public class ConexaoMySQL {
 
             // Carregando o JDBC Driver padrão
 
-            String driverName = "com.mysql.jdbc.Driver";
+            String driverName = "com.mysql.cj.jdbc.Driver";
 
             Class.forName(driverName);
             // Configurando a nossa conexão com um banco de dados//
 
             String serverName = "localhost";
-            String mydatabase = "Biblioteca?usessl=false";
+            String mydatabase = "Biblioteca?useSSL=false";
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
             String username = "root";
             String password = "admin";

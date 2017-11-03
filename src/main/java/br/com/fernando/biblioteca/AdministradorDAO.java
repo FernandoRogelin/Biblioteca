@@ -51,7 +51,7 @@ public class AdministradorDAO {
         try{
             PreparedStatement stmt = connection.prepareStatement(dataDeEntregaDoLivro);
             ResultSet dataDeEntrega = stmt.executeQuery();
-            System.out.println("Dias da entrega dos Livros: ");
+            System.out.println("Dias da entrega dos LivrosDAO: ");
             while (dataDeEntrega.next()){
                 String diaDaEntrega = dataDeEntrega.getString("diaDeEntrega");
                 String nomeDoLivro = dataDeEntrega.getString("nome");
@@ -62,11 +62,11 @@ public class AdministradorDAO {
         }
     }
 
-    public void excluirLivro(String nome){
-        String sql = "DELETE FROM livros WHERE nome = ?";
+    public void excluirLivro(int idLivro){
+        String sql = "DELETE FROM livros WHERE id = ?";
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, nome);
+            stmt.setString(1, String.valueOf(idLivro));
             stmt.execute();
             stmt.close();
         }catch (SQLException u){
