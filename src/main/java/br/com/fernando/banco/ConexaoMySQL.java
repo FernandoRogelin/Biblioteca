@@ -23,12 +23,12 @@ public class ConexaoMySQL {
         Connection connection = null;
         try {
 
-            // Carregando o JDBC Driver padrão
+            // Carregando o JDBC Driver
 
             String driverName = "com.mysql.cj.jdbc.Driver";
 
             Class.forName(driverName);
-            // Configurando a nossa conexão com um banco de dados//
+            // Configurando a conexão com o banco de dados//
 
             String serverName = "localhost";
             String mydatabase = "Biblioteca?useSSL=false";
@@ -38,7 +38,7 @@ public class ConexaoMySQL {
 
             connection = DriverManager.getConnection(url, username, password);
             return connection;
-        } catch (ClassNotFoundException e) {  //Driver não encontrado
+        } catch (ClassNotFoundException e) {
             System.out.println("O driver expecificado nao foi encontrado.");
             return null;
         } catch (SQLException e) {

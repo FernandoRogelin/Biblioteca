@@ -56,16 +56,22 @@ public class View {
         ControllerUsuario cont = new ControllerUsuario();
         Scanner scn = new Scanner(System.in);
         String loginADM;
-        int senhaADM;
+        String senhaADM;
         System.out.println("Login do novo Administrador:");
         loginADM = scn.next();
         System.out.println("Senha do novo Administrador: ");
-        senhaADM = scn.nextInt();
+        senhaADM = scn.next();
+        while (!senhaADM.matches("[0-9]+")) {
+            System.out.println("Deve colocar só números");
+            System.out.println("Digite a Senha novamente: ");
+            senhaADM = scn.nextLine();
+        }
+        int Senha = Integer.parseInt(senhaADM);
         if(adm.verificaLoginADM(loginADM)){
             System.out.println("Login de administrador já existe");
         } else {
             System.out.println("Adicionado novo administrador");
-            cont.chamaUsuario(loginADM, senhaADM);
+            cont.chamaUsuario(loginADM, Senha);
         }
 
     }
@@ -89,7 +95,7 @@ public class View {
         Controller cont = new Controller();
         int i = 0;
         while(i == 0){
-            System.out.println("Entrada na conta como AlunoDAO, o que deseja fazer: \n");
+            System.out.println("Entrada na conta como Aluno, o que deseja fazer: \n");
             System.out.println("1 - Livros disponíveis\n2 - Reservado");
             System.out.println("3 - Data de entrega\n4 - Renovação");
             System.out.println("5 - Sair");

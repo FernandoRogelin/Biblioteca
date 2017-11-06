@@ -51,7 +51,7 @@ public class AdministradorDAO {
         try{
             PreparedStatement stmt = connection.prepareStatement(dataDeEntregaDoLivro);
             ResultSet dataDeEntrega = stmt.executeQuery();
-            System.out.println("Dias da entrega dos LivrosDAO: ");
+            System.out.println("Dias da entrega dos Livros: ");
             while (dataDeEntrega.next()){
                 String diaDaEntrega = dataDeEntrega.getString("diaDeEntrega");
                 String nomeDoLivro = dataDeEntrega.getString("nome");
